@@ -10,3 +10,9 @@ function Button2(){
 function button3(){
    window.open("attendence.html" , "_self")
 }
+
+function logout(){
+const logout = document.getElementById("logout")
+logout.addEventListener("click" , logout)
+window.open("../index.html" , "_self")
+}
