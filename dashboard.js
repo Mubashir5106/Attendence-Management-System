@@ -6,3 +6,7 @@ function Button1(){
 function Button2(){
     window.open("student.html", "_self");
 }
+
+function button3(){
+   window.open("attendence.html" , "_self")
+}

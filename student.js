@@ -12,6 +12,7 @@ import {
     getDocs,
     query,
     where,
+    docRef,
   }from "https://www.gstatic.com/firebasejs/9.14.0/firebase-firestore.js";
 const firebaseConfig = {
     apiKey: "AIzaSyCeuRoiB9TqZ6IURbJ41puCyOLt609h6EE",
@@ -40,15 +41,132 @@ done.addEventListener("click", async () => {
     var file = document.getElementById("file");
 
 
-const docRef = await addDoc(collection (db , "classes"),{
-    name : name,
-    f_name : f_name,
-    email : email,
-    phone : phone,
-    cnic : cnic,
-    course : course,
-    file : file,
-});
+// const docRef = await addDoc(collection (db , "classes"),{
+//     name : name,
+//     f_name : f_name,
+//     email : email,
+//     phone : phone,
+//     cnic : cnic,
+//     course : course,
+//     file : file,
+// });
 
 console.log("Document written with ID: ", docRef.id);
+
 });
+
+
+
+
+// onAuthStateChanged(auth, (user) => {
+//     if (user) {
+//     const uid = user.uid;
+//     // ...
+//     } else {
+//         window.location = "./index.html";
+//     }
+//     });
+
+
+
+
+
+// onAuthStateChanged(auth, (user) => {
+//     if (user) {
+//     const uid = user.uid;
+//     // ...
+//     } else {
+//         window.location = "./index.html";
+//     }
+//     });
+
+
+
+// signout.addEventListener("click", () => {
+//     signOut(auth).then(async () => {
+//         // Sign-out successful.
+//         await swal("Signout Succesfull", "", "success");
+//         window.location = "./index.html";
+//     }).catch((error) => {
+//         // An error happened.
+
+//     });
+// });
+
+
+
+async function getData(user) {
+    let allClasses = collection(db, "classDetail");
+    const docSnaps = await getDocs(allClasses)
+        .then((items) => {
+            items.docs.forEach(doc => {
+                console.log(doc.data());
+                section.innerHTML = section.innerHTML +
+
+                    `
+                <option value="${doc.data().name +"  "+ doc.data().f_name +"  "+ doc.data().email +"  " + doc.data().phone +"  "  + doc.data().cnic +"  " + doc.data().course + doc.data().file+"  "}">${doc.data().TeacherName} ${doc.data().timing} ${doc.data().schedules} ${doc.data().courseName}</option>
+                `
+                
+                
+            });
+        })
+
+
+}
+
+getData()
+
+
+button.addEventListener("click", async () => {
+    // console.log(name.value);
+    // console.log(father.value);
+    // console.log(rollNumber.value);
+    // console.log(contact.value);
+    // console.log(cnic.value);
+    // console.log(picture.files);
+    // console.log(courseName.value);
+    // console.log(section.value);
+    console.log(section.value);
+
+
+    let file = profile.files[0];
+    let imageRef = ref(storage, `images/${file.name}`);
+
+    let uploaded = await uploadBytes(imageRef, file);
+    let url = await getDownloadURL(imageRef);
+    console.log(url, 'downloadable URL');
+
+    console.log("upload called", profile.files[0]);
+
+
+
+
+    let allClasses = collection(db, "classDetail");
+    const docSnaps = await getDocs(allClasses)
+        .then((items) => {
+            items.docs.forEach(doc => {
+                // console.log(doc.data());
+            });
+        })
+
+
+
+
+
+
+
+
+
+
+    let studentDetail = collection(db, "studentDetail");
+    await addDoc(studentDetail, { Name: name.value, FatherName: father.value, rollNumber: rollNumber.value, contact: contact.value, cnic: cnic.value, picture: url, courseName: courseName.value, section: section.value });
+    name.value = "";
+    f_name.value = "";
+    email.value = "";
+    phone.value = "";
+    cnic.value = "";
+    course.value = "";
+    
+
+    swal("Good job!", "New Class Added!", "success");
+})
