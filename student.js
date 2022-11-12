@@ -31,35 +31,24 @@ const auth = getAuth();
 
 const done = document.getElementById("done");
 done.addEventListener("click", async () => {
-  var Time = document.getElementById("Time").value;
-  var Schedule = document.getElementById("Schedule").value;
-  var Teacher = document.getElementById("Teacher").value;
-  var Section = document.getElementById("Section").value;
-  var Batch = document.getElementById("Batch").value;
+    var name = document.getElementById("name");
+    var f_name = document.getElementById("f_name");
+    var email = document.getElementById("email");
+    var phone = document.getElementById("phone");
+    var cnic = document.getElementById("cnic");
+    var course = document.getElementById("course");
+    var file = document.getElementById("file");
 
-  const docRef = await addDoc(collection(db, "classes"), {
-    Time: Time,
-    Schedule: Schedule,
-    Teacher: Teacher,
-    Section: Section,
-    Batch: Batch,
-  });
-  console.log("Document written with ID: ", docRef.id);
+
+const docRef = await addDoc(collection (db , "classes"),{
+    name : name,
+    f_name : f_name,
+    email : email,
+    phone : phone,
+    cnic : cnic,
+    course : course,
+    file : file,
 });
 
-var Teacher = document.getElementById("Teacher");
-Teacher.addEventListener("change", async () => {
-  const q = query(
-    collection(db, "classes"),
-    where("Teacher", "==", Teacher.value)
-  );
-
-  const querySnapshot = await getDocs(q);
-  querySnapshot.forEach((doc) => {
-    console.log(doc.id, " => ", doc.data());
-  });
+console.log("Document written with ID: ", docRef.id);
 });
-
-var back = document.getElementById("back").addEventListener("click",()=>{
-    window.open("../dashboard.html", "_self");
-})
